@@ -16,8 +16,8 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 import net.minecraftforge.common.crafting.CraftingHelper;
-import net.minecraftforge.common.crafting.IShapedRecipe;
 import net.minecraftforge.common.crafting.CraftingHelper.ShapedPrimer;
+import net.minecraftforge.common.crafting.IShapedRecipe;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.OreIngredient;
@@ -39,122 +39,124 @@ public class RecipeHelper {
 	/**
 	 * This adds the recipe to the list of crafting recipes.  Since who cares about names, it adds it as recipeX, where X is the current recipe you are adding.
 	 */
-	public void addRecipe(int j, IRecipe rec) {
+	public IRecipe addRecipe(int j, IRecipe rec) {
 		if (rec.getRegistryName() == null) recipes.add(rec.setRegistryName(new ResourceLocation(modid, "recipe" + j)));
 		else recipes.add(rec);
+		return rec;
 	}
 
 	/**
 	 * This adds the recipe to the list of crafting recipes.  Cares about names.
 	 */
-	public void addRecipe(String name, IRecipe rec) {
+	public IRecipe addRecipe(String name, IRecipe rec) {
 		if (rec.getRegistryName() == null) recipes.add(rec.setRegistryName(new ResourceLocation(modid, name)));
 		else recipes.add(rec);
+		return rec;
 	}
 
 	/**
 	 * Adds a shapeless recipe with X output using an array of inputs. Use Strings for OreDictionary support. This array is not ordered.  Can take a List in place of inputs.
 	 */
-	public void addShapeless(ItemStack output, Object... inputs) {
-		addRecipe(j++, new ShapelessRecipes(modid + ":" + j, output, createInput(inputs)));
+	public IRecipe addShapeless(ItemStack output, Object... inputs) {
+		return addRecipe(j++, new ShapelessRecipes(modid + ":" + j, output, createInput(inputs)));
 	}
 
-	public <T extends IForgeRegistryEntry<?>> void addShapeless(T output, Object... inputs) {
-		addShapeless(makeStack(output), inputs);
+	public <T extends IForgeRegistryEntry<?>> IRecipe addShapeless(T output, Object... inputs) {
+		return addShapeless(makeStack(output), inputs);
 	}
 
 	/**
 	 * Adds a shapeless recipe with X output using an array of inputs. Use Strings for OreDictionary support. This array is not ordered.  This has a custom group.
 	 */
-	public void addShapeless(String group, ItemStack output, Object... inputs) {
-		addRecipe(j++, new ShapelessRecipes(modid + ":" + group, output, createInput(inputs)));
+	public IRecipe addShapeless(String group, ItemStack output, Object... inputs) {
+		return addRecipe(j++, new ShapelessRecipes(modid + ":" + group, output, createInput(inputs)));
 	}
 
-	public <T extends IForgeRegistryEntry<?>> void addShapeless(String group, T output, Object... inputs) {
-		addShapeless(group, makeStack(output), inputs);
+	public <T extends IForgeRegistryEntry<?>> IRecipe addShapeless(String group, T output, Object... inputs) {
+		return addShapeless(group, makeStack(output), inputs);
 	}
 
 	/**
 	 * Adds a shapeless recipe with X output on a crafting grid that is W x H, using an array of inputs.  Use null for nothing, use Strings for OreDictionary support, this array must have a length of width * height.
 	 * This array is ordered, and items must follow from left to right, top to bottom of the crafting grid.
 	 */
-	public void addShaped(ItemStack output, int width, int height, Object... input) {
-		addRecipe(j++, genShaped(output, width, height, input));
+	public IRecipe addShaped(ItemStack output, int width, int height, Object... input) {
+		return addRecipe(j++, genShaped(output, width, height, input));
 	}
 
-	public <T extends IForgeRegistryEntry<?>> void addShaped(T output, int width, int height, Object... input) {
-		addShaped(makeStack(output), width, height, input);
+	public <T extends IForgeRegistryEntry<?>> IRecipe addShaped(T output, int width, int height, Object... input) {
+		return addShaped(makeStack(output), width, height, input);
 	}
 
 	/**
 	 * Adds a shapeless recipe with X output on a crafting grid that is W x H, using an array of inputs.  Use null for nothing, use Strings for OreDictionary support, this array must have a length of width * height.
 	 * This array is ordered, and items must follow from left to right, top to bottom of the crafting grid. This has a custom group.
 	 */
-	public void addShaped(String group, ItemStack output, int width, int height, Object... input) {
-		addRecipe(j++, genShaped(modid + ":" + group, output, width, height, input));
+	public IRecipe addShaped(String group, ItemStack output, int width, int height, Object... input) {
+		return addRecipe(j++, genShaped(modid + ":" + group, output, width, height, input));
 	}
 
-	public <T extends IForgeRegistryEntry<?>> void addShaped(String group, T output, int width, int height, Object... input) {
-		addShaped(group, makeStack(output), width, height, input);
+	public <T extends IForgeRegistryEntry<?>> IRecipe addShaped(String group, T output, int width, int height, Object... input) {
+		return addShaped(group, makeStack(output), width, height, input);
 	}
-	
+
 	/*
 	 * Adds a shaped recipe to the list of crafting recipes, using the forge format.
 	 */
-	public void addForgeShaped(ItemStack output, Object... input) {
+	public IRecipe addForgeShaped(ItemStack output, Object... input) {
 		ShapedPrimer primer = CraftingHelper.parseShaped(input);
-		addRecipe(j++, new ShapedRecipes(new ResourceLocation(modid, "recipe" + j).toString(), primer.width, primer.height, primer.input, output));
+		return addRecipe(j++, new ShapedRecipes(new ResourceLocation(modid, "recipe" + j).toString(), primer.width, primer.height, primer.input, output));
 	}
-	
+
 	/*
 	 * Adds a shaped recipe to the list of crafting recipes, using the forge format.
 	 */
-	public <T extends IForgeRegistryEntry<?>> void addForgeShaped(T output, Object... input) {
-		addForgeShaped(makeStack(output), input);
+	public <T extends IForgeRegistryEntry<?>> IRecipe addForgeShaped(T output, Object... input) {
+		return addForgeShaped(makeStack(output), input);
 	}
 
 	/*
 	 * Adds a shaped recipe to the list of crafting recipes, using the forge format, with a custom group.
 	 */
-	public void addForgeShaped(String group, ItemStack output, Object... input) {
+	public IRecipe addForgeShaped(String group, ItemStack output, Object... input) {
 		ShapedPrimer primer = CraftingHelper.parseShaped(input);
-		addRecipe(j++, new ShapedRecipes(new ResourceLocation(modid, group).toString(), primer.width, primer.height, primer.input, output));
+		return addRecipe(j++, new ShapedRecipes(new ResourceLocation(modid, group).toString(), primer.width, primer.height, primer.input, output));
 	}
 
 	/*
 	* Adds a shaped recipe to the list of crafting recipes, using the forge format, with a custom group and a custom name.
 	*/
-	public void addForgeShaped(String name, String group, ItemStack output, Object... input) {
+	public IRecipe addForgeShaped(String name, String group, ItemStack output, Object... input) {
 		ShapedPrimer primer = CraftingHelper.parseShaped(input);
-		addRecipe(j++, new ShapedRecipes(new ResourceLocation(modid, group).toString(), primer.width, primer.height, primer.input, output).setRegistryName(modid, name));
+		return addRecipe(j++, new ShapedRecipes(new ResourceLocation(modid, group).toString(), primer.width, primer.height, primer.input, output).setRegistryName(modid, name));
 	}
 
 	/*
 	 * Adds a shapeless recipe to the list of crafting recipes, using the forge format.
 	 */
-	public void addForgeShapeless(ItemStack output, Object... input) {
-		addRecipe(j++, new ShapelessRecipes(new ResourceLocation(modid, "recipe" + j).toString(), output, createInput(input)));
+	public IRecipe addForgeShapeless(ItemStack output, Object... input) {
+		return addRecipe(j++, new ShapelessRecipes(new ResourceLocation(modid, "recipe" + j).toString(), output, createInput(input)));
 	}
-	
+
 	/*
 	 * Adds a shaped recipe to the list of crafting recipes, using the forge format.
 	 */
-	public <T extends IForgeRegistryEntry<?>> void addForgeShapeless(T output, Object... input) {
-		addForgeShapeless(makeStack(output), input);
+	public <T extends IForgeRegistryEntry<?>> IRecipe addForgeShapeless(T output, Object... input) {
+		return addForgeShapeless(makeStack(output), input);
 	}
 
 	/*
 	 * Adds a shapeless recipe to the list of crafting recipes, using the forge format, with a custom group.
 	 */
-	public void addForgeShapeless(String group, ItemStack output, Object... input) {
-		addRecipe(j++, new ShapelessRecipes(new ResourceLocation(modid, group).toString(), output, createInput(input)));
+	public IRecipe addForgeShapeless(String group, ItemStack output, Object... input) {
+		return addRecipe(j++, new ShapelessRecipes(new ResourceLocation(modid, group).toString(), output, createInput(input)));
 	}
 
 	/*
 	 * Adds a shapeless recipe to the list of crafting recipes, using the forge format, with a custom group and a custom name.
 	 */
-	public void addForgeShapeless(String name, String group, ItemStack output, Object... input) {
-		addRecipe(j++, new ShapelessRecipes(new ResourceLocation(modid, group).toString(), output, createInput(input)).setRegistryName(modid, name));
+	public IRecipe addForgeShapeless(String name, String group, ItemStack output, Object... input) {
+		return addRecipe(j++, new ShapelessRecipes(new ResourceLocation(modid, group).toString(), output, createInput(input)).setRegistryName(modid, name));
 	}
 
 	/**
@@ -174,7 +176,7 @@ public class RecipeHelper {
 		}
 		return new ShapedRecipes(group, l, w, inputL, output);
 	}
-	
+
 	/**
 	 * Generates a {@link ShapedRecipes} with a specific width and height. The Object... is the ingredients, in order from left to right, top to bottom.
 	 */
@@ -204,29 +206,29 @@ public class RecipeHelper {
 	/**
 	 * Adds a shapeless recipe with one output and x inputs, all inputs are the same.
 	 */
-	public void addSimpleShapeless(ItemStack output, ItemStack input, int numInputs) {
-		addShapeless(output, NonNullList.withSize(numInputs, input));
+	public IRecipe addSimpleShapeless(ItemStack output, ItemStack input, int numInputs) {
+		return addShapeless(output, NonNullList.withSize(numInputs, input));
 	}
 
 	/**
 	 * Adds a shapeless recipe with one output and x inputs, all inputs are the same.
 	 */
-	public <T extends IForgeRegistryEntry<?>> void addSimpleShapeless(T output, T input, int numInputs) {
-		addSimpleShapeless(makeStack(output), makeStack(input), numInputs);
+	public <T extends IForgeRegistryEntry<?>> IRecipe addSimpleShapeless(T output, T input, int numInputs) {
+		return addSimpleShapeless(makeStack(output), makeStack(input), numInputs);
 	}
 
 	/**
 	 * Adds a shapeless recipe with one output and x inputs, all inputs are the same.
 	 */
-	public <T extends IForgeRegistryEntry<?>> void addSimpleShapeless(T output, ItemStack input, int numInputs) {
-		addSimpleShapeless(makeStack(output), input, numInputs);
+	public <T extends IForgeRegistryEntry<?>> IRecipe addSimpleShapeless(T output, ItemStack input, int numInputs) {
+		return addSimpleShapeless(makeStack(output), input, numInputs);
 	}
 
 	/**
 	 * Adds a shapeless recipe with one output and x inputs, all inputs are the same.
 	 */
-	public <T extends IForgeRegistryEntry<?>> void addSimpleShapeless(ItemStack output, T input, int numInputs) {
-		addSimpleShapeless(output, makeStack(input), numInputs);
+	public <T extends IForgeRegistryEntry<?>> IRecipe addSimpleShapeless(ItemStack output, T input, int numInputs) {
+		return addSimpleShapeless(output, makeStack(input), numInputs);
 	}
 
 	/**

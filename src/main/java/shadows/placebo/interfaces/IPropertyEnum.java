@@ -2,10 +2,15 @@ package shadows.placebo.interfaces;
 
 import java.util.Locale;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
+/**
+ * Only implement this on an enum.
+ * @author Shadows
+ */
 public interface IPropertyEnum extends IStringSerializable {
 
 	@Override
@@ -13,30 +18,30 @@ public interface IPropertyEnum extends IStringSerializable {
 		return ((Enum<?>) this).name().toLowerCase(Locale.ENGLISH);
 	}
 
-	default public int getPredicateIndex() {
-		return ((Enum<?>) this).ordinal() / 16;
-	};
-
-	default public boolean useForRecipes() {
-		return false;
-	}
-
-	default public int getMetadata() {
-		return ((Enum<?>) this).ordinal() % 16;
-	}
-
-	/*
-	 * Returns the value of this Enum constant as an ItemStack, or ItemStack.EMPTY, if invalid.
+	/**
+	 * @return The value of this enum constant as an ItemStack, or ItemStack.EMPTY if invalid.
 	 */
-	public ItemStack get();
+	public ItemStack getAsStack();
 
-	default public ItemStack get(int size) {
-		ItemStack s = get();
+	/**
+	 * Util method to return getAsStack with specified size.
+	 */
+	default public ItemStack getAsStack(int size) {
+		ItemStack s = getAsStack();
 		s.setCount(size);
 		return s;
 	}
 
-	default public void set(IForgeRegistryEntry<?> thing) {
+	/**
+	 * @return The value of this enum constant as an IBlockState, or null if invalid.
+	 */
+	public IBlockState getAsState();
+
+	/**
+	 * Allows an enum to handle an IForgeRegistryEntry for storage.  Useful for getAsStack/getAsState
+	 * @param blockOrItem A {@link net.minecraft.block.Block} or {@link net.minecraft.item.Item}
+	 */
+	default public void set(IForgeRegistryEntry<?> blockOrItem) {
 	}
 
 }

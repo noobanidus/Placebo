@@ -8,14 +8,4 @@ public interface ITreeEnum extends IPropertyEnum {
 
 	public void setTreeGen(WorldGenerator k);
 
-	@Override
-	default public int getPredicateIndex() {
-		return ((Enum<?>) this).ordinal() / 4;
-	}
-
-	@Override
-	default public int getMetadata() {
-		return ((Enum<?>) this).ordinal() % 4;
-	}
-
 }

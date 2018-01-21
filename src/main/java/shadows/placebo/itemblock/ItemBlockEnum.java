@@ -10,17 +10,16 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import shadows.placebo.block.base.IEnumBlock;
 import shadows.placebo.interfaces.IPropertyEnum;
 
-public class ItemBlockEnum<E extends Enum<E> & IPropertyEnum> extends ItemBlockBase {
+public class ItemBlockEnum<E extends Enum<E> & IPropertyEnum, B extends Block & IEnumBlock<E>> extends ItemBlockBase {
 
 	protected final IEnumBlock<E> enumBlock;
 
-	public ItemBlockEnum(IEnumBlock<E> enumBlock) {
-		super((Block) enumBlock);
+	public ItemBlockEnum(B enumBlock) {
+		super(enumBlock);
 		this.enumBlock = enumBlock;
 		setHasSubtypes(true);
 	}
@@ -48,13 +47,7 @@ public class ItemBlockEnum<E extends Enum<E> & IPropertyEnum> extends ItemBlockB
 	}
 
 	@Override
-	public int getMetadata(int damage) {
-		return MathHelper.clamp(damage, 0, enumBlock.getTypes().size() - 1);
-	}
-
-	@Override
 	public String getUnlocalizedName(ItemStack stack) {
-		if (stack.getMetadata() >= enumBlock.getTypes().size()) return "invalid";
-		return getUnlocalizedName() + "." + enumBlock.getTypes().get(stack.getMetadata()).getName();
+		return getUnlocalizedName() + "." + enumBlock.getType().getName();
 	}
 }
