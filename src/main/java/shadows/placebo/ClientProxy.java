@@ -1,6 +1,9 @@
 package shadows.placebo;
 
+import java.util.function.Function;
+
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraftforge.client.model.ModelLoader;
 import shadows.placebo.client.RenamedStateMapper;
@@ -24,6 +27,11 @@ public class ClientProxy extends Proxy {
 
 	@Override
 	public void useRenamedMapper(Block b, String path, String append, String variant) {
+		ModelLoader.setCustomStateMapper(b, new RenamedStateMapper(b.getRegistryName().getResourceDomain(), path, append, variant));
+	}
+
+	@Override
+	public void useRenamedMapper(Block b, String path, String append, Function<IBlockState, String> variant) {
 		ModelLoader.setCustomStateMapper(b, new RenamedStateMapper(b.getRegistryName().getResourceDomain(), path, append, variant));
 	}
 

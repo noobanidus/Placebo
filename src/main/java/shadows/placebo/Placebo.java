@@ -29,7 +29,7 @@ public class Placebo {
 	public static Proxy PROXY;
 
 	public static final Logger LOG = LogManager.getLogger(MODID);
-	
+
 	public static Configuration config;
 
 	@EventHandler
@@ -46,6 +46,6 @@ public class Placebo {
 	public void postInit(FMLPostInitializationEvent e) {
 		for (IPostInitUpdate i : UPDATES)
 			i.postInit(e);
-		if(config.getBoolean("Dump event handlers", "general", false, "If placebo will dump all event handlers to the log in post init.")) PlaceboUtil.dumpEventHandlers();
+		if (config.getBoolean("Dump event handlers", "general", false, "If placebo will dump all event handlers to the log in post init.")) PlaceboUtil.dumpEventHandlers();
 	}
 }

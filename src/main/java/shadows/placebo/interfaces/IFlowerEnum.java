@@ -7,7 +7,7 @@ public interface IFlowerEnum extends IPropertyEnum {
 	public boolean hasFlowers();
 
 	public EnumDyeColor getColor();
-	
+
 	default public boolean useForRecipes() {
 		return false;
 	}

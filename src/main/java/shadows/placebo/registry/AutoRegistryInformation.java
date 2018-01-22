@@ -22,12 +22,12 @@ public class AutoRegistryInformation extends RegistryInformation {
 		super(modid, tab);
 		MinecraftForge.EVENT_BUS.register(this);
 	}
-	
+
 	@SubscribeEvent
 	public void blocks(Register<Block> event) {
 		event.getRegistry().registerAll(PlaceboUtil.toArray(BLOCKS));
 	}
-	
+
 	@SubscribeEvent
 	public void items(Register<Item> event) {
 		event.getRegistry().registerAll(PlaceboUtil.toArray(ITEMS));
@@ -37,42 +37,40 @@ public class AutoRegistryInformation extends RegistryInformation {
 	public void potions(Register<Potion> event) {
 		event.getRegistry().registerAll(PlaceboUtil.toArray(POTIONS));
 	}
-	
+
 	@SubscribeEvent
 	public void biomes(Register<Biome> event) {
 		event.getRegistry().registerAll(PlaceboUtil.toArray(BIOMES));
 	}
-	
+
 	@SubscribeEvent
 	public void sounds(Register<SoundEvent> event) {
 		event.getRegistry().registerAll(PlaceboUtil.toArray(SOUND_EVENTS));
 	}
-	
+
 	@SubscribeEvent
 	public void potionTypes(Register<PotionType> event) {
 		event.getRegistry().registerAll(PlaceboUtil.toArray(POTION_TYPES));
 	}
-	
+
 	@SubscribeEvent
 	public void enchantments(Register<Enchantment> event) {
 		event.getRegistry().registerAll(PlaceboUtil.toArray(ENCHANTMENTS));
 	}
-	
+
 	@SubscribeEvent
 	public void villagerProfessions(Register<VillagerProfession> event) {
 		event.getRegistry().registerAll(PlaceboUtil.toArray(VILLAGER_PROFESSIONS));
 	}
-	
+
 	@SubscribeEvent
 	public void entities(Register<EntityEntry> event) {
 		event.getRegistry().registerAll(PlaceboUtil.toArray(ENTITIES));
 	}
-	
+
 	@SubscribeEvent
 	public void recipes(Register<IRecipe> event) {
 		event.getRegistry().registerAll(PlaceboUtil.toArray(RECIPES));
 	}
-
-
 
 }

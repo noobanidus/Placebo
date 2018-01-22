@@ -39,7 +39,6 @@ public abstract class BlockEnum<E extends Enum<E> & IPropertyEnum> extends Block
 		return type;
 	}
 
-
 	@Override
 	public IBlockState getStateFor(E e) {
 		return this.getDefaultState();

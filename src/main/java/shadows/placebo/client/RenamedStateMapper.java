@@ -1,6 +1,7 @@
 package shadows.placebo.client;
 
 import java.util.Map;
+import java.util.function.Function;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -14,6 +15,7 @@ public class RenamedStateMapper implements IStateMapper {
 	final String path;
 	String append = "";
 	String variant = "";
+	Function<IBlockState, String> variantFunc;
 
 	public RenamedStateMapper(String modid, String path) {
 		this.modid = modid;
@@ -30,13 +32,18 @@ public class RenamedStateMapper implements IStateMapper {
 		this.variant = variant;
 	}
 
+	public RenamedStateMapper(String modid, String path, String append, Function<IBlockState, String> variantFunc) {
+		this(modid, path, append);
+		this.variantFunc = variantFunc;
+	}
+
 	@Override
 	public Map<IBlockState, ModelResourceLocation> putStateModelLocations(Block block) {
 		Map<IBlockState, ModelResourceLocation> map = new DefaultStateMapper().putStateModelLocations(block);
 		for (IBlockState state : map.keySet()) {
 			ModelResourceLocation loc = map.get(state);
 			String var = variant.length() == 0 ? loc.getVariant() : variant;
-
+			if (variantFunc != null) var = variantFunc.apply(state);
 			map.put(state, new ModelResourceLocation(modid + ":" + path, var + append));
 		}
 		return map;

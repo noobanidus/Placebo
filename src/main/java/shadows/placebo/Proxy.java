@@ -1,6 +1,9 @@
 package shadows.placebo;
 
+import java.util.function.Function;
+
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 
 public class Proxy {
 
@@ -18,6 +21,10 @@ public class Proxy {
 	}
 
 	public void useRenamedMapper(Block b, String path, String append, String variant) {
+
+	}
+
+	public void useRenamedMapper(Block b, String path, String append, Function<IBlockState, String> variant) {
 
 	}
 
