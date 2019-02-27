@@ -11,7 +11,7 @@ import shadows.placebo.util.PlaceboUtil;
 
 public interface IHasModel {
 
-	default public void initModels(ModelRegistryEvent e) {
+	default public void onModelRegister(ModelRegistryEvent e) {
 		ResourceLocation name = ((IForgeRegistryEntry<?>) this).getRegistryName();
 		if (this instanceof Item) PlaceboUtil.sMRL("items", (Item) this, 0, "item=" + name.getPath());
 		else if (this instanceof Block) ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock((Block) this), 0, new ModelResourceLocation(name, "inventory"));

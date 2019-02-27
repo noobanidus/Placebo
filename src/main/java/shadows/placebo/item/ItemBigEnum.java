@@ -25,7 +25,7 @@ public class ItemBigEnum<T extends IStringSerializable> extends Item implements 
 	}
 
 	@Override
-	public void initModels(ModelRegistryEvent ev) {
+	public void onModelRegister(ModelRegistryEvent ev) {
 		for (int i = 0; i < values.length; i++)
 			PlaceboUtil.sMRL("items", this, i, "item=" + values[i].getName());
 	}

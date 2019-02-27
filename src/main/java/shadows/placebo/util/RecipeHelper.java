@@ -31,8 +31,8 @@ import shadows.placebo.Placebo;
 public abstract class RecipeHelper {
 
 	private int j = 0;
-	private final String modid;
-	private final String modname;
+	protected final String modid;
+	protected final String modname;
 	private final List<IRecipe> recipes = new ArrayList<>();
 
 	public RecipeHelper(String modid, String modname) {

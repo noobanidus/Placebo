@@ -120,4 +120,13 @@ public class PlaceboUtil {
 		}.setRegistryName(block.getRegistryName()));
 	}
 
+	/**
+	 * Sets the name and key of an item in preparation for registration.
+	 */
+	public static Item initItem(Item i, String modid, String name) {
+		i.setRegistryName(modid, name);
+		i.setTranslationKey(modid + "." + name);
+		return i;
+	}
+
 }
