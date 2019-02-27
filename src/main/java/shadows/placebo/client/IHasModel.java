@@ -15,7 +15,7 @@ public interface IHasModel {
 		ResourceLocation name = ((IForgeRegistryEntry<?>) this).getRegistryName();
 		if (this instanceof Item) PlaceboUtil.sMRL("items", (Item) this, 0, "item=" + name.getPath());
 		else if (this instanceof Block) ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock((Block) this), 0, new ModelResourceLocation(name, "inventory"));
-		else throw new IllegalStateException("wat are u doin");
+		else throw new IllegalStateException("Default impl invoked for something that was not a Block or Item. This is not allowed.");
 	}
 
 }

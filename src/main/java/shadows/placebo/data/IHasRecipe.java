@@ -1,4 +1,4 @@
-package shadows.placebo.interfaces;
+package shadows.placebo.data;
 
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.event.RegistryEvent.Register;

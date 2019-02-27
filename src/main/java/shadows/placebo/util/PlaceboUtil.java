@@ -10,8 +10,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
@@ -67,7 +65,7 @@ public class PlaceboUtil {
 		entry.setRegistryName(new ResourceLocation("minecraft", name));
 		l.setActiveModContainer(k);
 	}
-	
+
 	public static NBTTagCompound getStackNBT(ItemStack stack) {
 		if (stack.isEmpty()) throw new RuntimeException("Tried to get tag compound from empty stack!  This is a bug!");
 		if (stack.hasTagCompound()) return stack.getTagCompound();
@@ -86,33 +84,24 @@ public class PlaceboUtil {
 		return list;
 	}
 
-	@SafeVarargs
-	public static <T extends IForgeRegistryEntry<?>> List<ItemStack> toStackList(Object... objs) {
+	/**
+	 * Creates a List<ItemStack> from things that could be ItemStacks.
+	 */
+	public static List<ItemStack> toStackList(Object... objs) {
 		ItemStack[] stacks = new ItemStack[objs.length];
 		for (int i = 0; i < objs.length; i++)
-			stacks[i] = convert(objs[i]);
+			stacks[i] = RecipeHelper.makeStack(objs[i]);
 		return NonNullList.from(ItemStack.EMPTY, stacks);
 	}
 
-	@SafeVarargs
-	public static <T extends IForgeRegistryEntry<?>> ItemStack[] toStackArray(Object... objs) {
+	/**
+	 * Creates an ItemStack[] from things that could be ItemStacks.
+	 */
+	public static ItemStack[] toStackArray(Object... objs) {
 		ItemStack[] stacks = new ItemStack[objs.length];
 		for (int i = 0; i < objs.length; i++)
-			stacks[i] = convert(objs[i]);
+			stacks[i] = RecipeHelper.makeStack(objs[i]);
 		return stacks;
-	}
-
-	public static ItemStack convert(Object obj) {
-		if (obj instanceof ItemStack) return (ItemStack) obj;
-		else return RecipeHelper.makeStack((IForgeRegistryEntry<?>) obj);
-	}
-
-	/**
-	 * Legacy compat until I can figure out how to map all the meta->states used in this mod.
-	 */
-	@SuppressWarnings("deprecation")
-	public static boolean setBlockWithMeta(World world, BlockPos pos, Block block, int meta, int flag) {
-		return world.setBlockState(pos, block.getStateFromMeta(meta), flag);
 	}
 
 }

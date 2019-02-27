@@ -1,4 +1,4 @@
-package shadows.placebo.util;
+package shadows.placebo.util.spawner;
 
 import javax.annotation.Nullable;
 

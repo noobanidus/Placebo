@@ -1,4 +1,4 @@
-package shadows.placebo.interfaces;
+package shadows.placebo.data;
 
 import net.minecraft.item.ItemBlock;
 

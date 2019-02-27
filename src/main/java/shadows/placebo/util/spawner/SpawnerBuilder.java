@@ -1,4 +1,4 @@
-package shadows.placebo.util;
+package shadows.placebo.util.spawner;
 
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.entity.Entity;

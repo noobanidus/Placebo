@@ -1,4 +1,4 @@
-package shadows.placebo.util;
+package shadows.placebo.util.spawner;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.attributes.AttributeModifier;

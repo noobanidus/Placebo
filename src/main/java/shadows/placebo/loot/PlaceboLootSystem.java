@@ -25,14 +25,14 @@ public class PlaceboLootSystem {
 		for (Entry<ResourceLocation, LootTable> et : PLACEBO_TABLES.entrySet()) {
 			if (!tables.containsValue(et.getValue())) cache.put(et.getKey(), et.getValue());
 			if (e.getLootTableManager().getLootTableFromLocation(et.getKey()) == LootTable.EMPTY_LOOT_TABLE) {
-				Placebo.LOG.error("Failed to register Loot Table {}", et.getKey());
+				Placebo.LOGGER.error("Failed to register Loot Table {}", et.getKey());
 			}
 		}
 	}
 
 	public static void registerLootTable(ResourceLocation key, LootTable table) {
 		if (!PLACEBO_TABLES.containsKey(key)) PLACEBO_TABLES.put(key, table);
-		else Placebo.LOG.warn("Duplicate loot entry detected, this is not allowed!  Key: " + key);
+		else Placebo.LOGGER.warn("Duplicate loot entry detected, this is not allowed!  Key: " + key);
 	}
 
 }

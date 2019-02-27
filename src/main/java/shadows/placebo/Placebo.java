@@ -1,6 +1,6 @@
 package shadows.placebo;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -13,37 +13,31 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import shadows.placebo.interfaces.IPostInitUpdate;
+import shadows.placebo.data.IPostInitUpdate;
 import shadows.placebo.loot.PlaceboLootSystem;
-import shadows.placebo.util.PlaceboDebug;
-import shadows.placebo.util.RecipeHelper;
+import shadows.placebo.util.FastRecipeHandler;
+import shadows.placebo.util.RecipeHelper.CachedIngredient;
+import shadows.placebo.util.RecipeHelper.CachedOreIngredient;
 
 @Mod(modid = Placebo.MODID, name = Placebo.MODNAME, version = Placebo.VERSION, acceptableRemoteVersions = "*")
 public class Placebo {
 
 	public static final String MODID = "placebo";
 	public static final String MODNAME = "Placebo";
-	public static final String VERSION = "1.5.1";
+	public static final String VERSION = "2.0.0";
 
-	public static final List<IPostInitUpdate> UPDATES = new ArrayList<>();
+	public static final List<IPostInitUpdate> UPDATES = new LinkedList<>();
 
 	@SidedProxy(serverSide = "shadows.placebo.Proxy", clientSide = "shadows.placebo.ClientProxy")
 	public static Proxy PROXY;
 
-	public static final Logger LOG = LogManager.getLogger(MODID);
+	public static final Logger LOGGER = LogManager.getLogger(MODID);
 
-	public static Configuration config;
-
-	static boolean dumpHandlers = false;
 	static boolean fastRecipes = false;
-
-	private final boolean debug = false;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent e) {
-		config = new Configuration(e.getSuggestedConfigurationFile());
-		config.load();
-		dumpHandlers = config.getBoolean("Dump event handlers", "general", false, "If placebo will dump all event handlers to the log in post init.");
+		Configuration config = new Configuration(e.getSuggestedConfigurationFile());
 		fastRecipes = config.getBoolean("Fast Shapeless Recipes", "general", true, "If placebo will replace all ShapelessRecipes and ShapelessOreRecipes with FastShapelessRecipes.");
 		if (config.hasChanged()) config.save();
 		MinecraftForge.EVENT_BUS.register(new PlaceboLootSystem());
@@ -53,9 +47,9 @@ public class Placebo {
 	public void postInit(FMLPostInitializationEvent e) {
 		for (IPostInitUpdate i : UPDATES)
 			i.postInit(e);
-		if (debug) PlaceboDebug.debug();
-		if (dumpHandlers) PlaceboDebug.dumpEventHandlers();
-		if (fastRecipes) PlaceboDebug.enableFastShapeless();
-		RecipeHelper.CachedOreIngredient.ing = null;
+		UPDATES.clear();
+		if (fastRecipes) FastRecipeHandler.enableFastShapeless();
+		CachedOreIngredient.ing = null;
+		CachedIngredient.ing = null;
 	}
 }
