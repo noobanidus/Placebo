@@ -88,8 +88,8 @@ public class SpawnerBuilder {
 	 * Sets min and max spawn delays.
 	 */
 	public SpawnerBuilder setMinAndMaxDelay(int min, int max) {
-		this.setMinDelay(min);
-		this.setMaxDelay(max);
+		setMinDelay(min);
+		setMaxDelay(max);
 		return this;
 	}
 

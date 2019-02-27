@@ -101,7 +101,7 @@ public abstract class RecipeHelper {
 			Object k = input[i];
 			if (k instanceof String) inputL.add(i, CachedOreIngredient.create((String) k));
 			else if (k instanceof ItemStack && !((ItemStack) k).isEmpty()) inputL.add(i, CachedIngredient.create((ItemStack) k));
-			else if (k instanceof IForgeRegistryEntry) inputL.add(i, CachedIngredient.create(makeStack((IForgeRegistryEntry<?>) k)));
+			else if (k instanceof IForgeRegistryEntry) inputL.add(i, CachedIngredient.create(makeStack(k)));
 			else if (k instanceof Ingredient) inputL.add(i, (Ingredient) k);
 			else if (shaped) inputL.add(i, Ingredient.EMPTY);
 			else throw new UnsupportedOperationException("The mod " + modname + " attempted to create an invalid shapeless recipe.");
@@ -126,7 +126,7 @@ public abstract class RecipeHelper {
 	public static ItemStack makeStack(Object thing, int size, int meta) {
 		if (thing instanceof Item) return new ItemStack((Item) thing, size, meta);
 		if (thing instanceof Block) return new ItemStack((Block) thing, size, meta);
-		if (thing instanceof StackPrimer) return ((StackPrimer) thing).genStack();
+		if (thing instanceof StackPrimer) return ((StackPrimer) thing).get();
 		return (ItemStack) thing;
 	}
 

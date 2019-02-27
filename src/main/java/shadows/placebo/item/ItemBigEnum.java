@@ -20,7 +20,7 @@ public class ItemBigEnum<T extends IStringSerializable> extends Item implements 
 
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
-		if (this.isInCreativeTab(tab)) for (int i = 0; i < values.length; i++)
+		if (isInCreativeTab(tab)) for (int i = 0; i < values.length; i++)
 			items.add(new ItemStack(this, 1, i));
 	}
 
@@ -32,7 +32,7 @@ public class ItemBigEnum<T extends IStringSerializable> extends Item implements 
 
 	@Override
 	public String getTranslationKey(ItemStack stack) {
-		return "item." + this.getRegistryName().getNamespace() + "." + values[stack.getMetadata() % values.length].getName();
+		return "item." + getRegistryName().getNamespace() + "." + values[stack.getMetadata() % values.length].getName();
 	}
 
 }

@@ -17,7 +17,7 @@ public final class VanillaPacketDispatcher {
 		if (entry == null) return;
 
 		for (EntityPlayerMP player : entry.getWatchingPlayers())
-			((EntityPlayerMP) player).connection.sendPacket(tile.getUpdatePacket());
+			player.connection.sendPacket(tile.getUpdatePacket());
 
 	}
 
