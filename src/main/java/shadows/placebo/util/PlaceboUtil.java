@@ -6,6 +6,7 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
@@ -102,6 +103,21 @@ public class PlaceboUtil {
 		for (int i = 0; i < objs.length; i++)
 			stacks[i] = RecipeHelper.makeStack(objs[i]);
 		return stacks;
+	}
+
+	/**
+	 * Overrides a block in the registry.  Also registers a default itemblock that shows the passed modid as the owner.
+	 * @param block The block to override.  Must already have a name set.
+	 * @param modid The owner of this override block.
+	 */
+	public static void registerOverrideBlock(Block block, String modid) {
+		ForgeRegistries.BLOCKS.register(block);
+		ForgeRegistries.ITEMS.register(new ItemBlock(block) {
+			@Override
+			public String getCreatorModId(ItemStack itemStack) {
+				return modid;
+			}
+		}.setRegistryName(block.getRegistryName()));
 	}
 
 }
