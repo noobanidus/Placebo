@@ -129,4 +129,15 @@ public class PlaceboUtil {
 		return i;
 	}
 
+	/**
+	 * Sets the name, key, hardness, and resistance of a block in preparation for registration.
+	 */
+	public static Block initBlock(Block b, String modid, String name, float hardness, float resist) {
+		b.setRegistryName(modid, name);
+		b.setTranslationKey(modid + "." + name);
+		b.setHardness(hardness);
+		b.setResistance(resist);
+		return b;
+	}
+
 }
