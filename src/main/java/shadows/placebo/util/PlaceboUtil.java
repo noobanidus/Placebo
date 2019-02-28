@@ -123,21 +123,21 @@ public class PlaceboUtil {
 	/**
 	 * Sets the name and key of an item in preparation for registration.
 	 */
-	public static Item initItem(Item i, String modid, String name) {
-		i.setRegistryName(modid, name);
-		i.setTranslationKey(modid + "." + name);
-		return i;
+	public static <T extends Item> T initItem(T item, String modid, String name) {
+		item.setRegistryName(modid, name);
+		item.setTranslationKey(modid + "." + name);
+		return item;
 	}
 
 	/**
 	 * Sets the name, key, hardness, and resistance of a block in preparation for registration.
 	 */
-	public static Block initBlock(Block b, String modid, String name, float hardness, float resist) {
-		b.setRegistryName(modid, name);
-		b.setTranslationKey(modid + "." + name);
-		b.setHardness(hardness);
-		b.setResistance(resist);
-		return b;
+	public static <T extends Block> T initBlock(T block, String modid, String name, float hardness, float resist) {
+		block.setRegistryName(modid, name);
+		block.setTranslationKey(modid + "." + name);
+		block.setHardness(hardness);
+		block.setResistance(resist);
+		return block;
 	}
 
 }

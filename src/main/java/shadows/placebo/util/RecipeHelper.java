@@ -1,6 +1,7 @@
 package shadows.placebo.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,9 +17,9 @@ import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegistryEvent.Register;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.oredict.OreIngredient;
-import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import shadows.placebo.Placebo;
 
@@ -41,9 +42,9 @@ public abstract class RecipeHelper {
 	}
 
 	@SubscribeEvent
-	public final void register(IForgeRegistry<IRecipe> reg) {
+	public final void register(Register<IRecipe> e) {
 		addRecipes();
-		reg.registerAll(recipes.toArray(new IRecipe[0]));
+		e.getRegistry().registerAll(recipes.toArray(new IRecipe[0]));
 	}
 
 	/**
@@ -72,7 +73,7 @@ public abstract class RecipeHelper {
 	 * Valid inputs are {@link Ingredient}, {@link Item}, {@link String}, {@link ItemStack} and {@link Block}
 	 */
 	public void addShapeless(Object output, Object... inputs) {
-		addRecipe(j++, new FastShapelessRecipe(modid + ":" + j, makeStack(output), createInput(false, inputs)));
+		addRecipe(j++, new FastShapelessRecipe(modid, makeStack(output), createInput(false, inputs)));
 	}
 
 	/**
@@ -84,11 +85,11 @@ public abstract class RecipeHelper {
 	}
 
 	/**
-	 * Generates a {@link ShapedRecipes} with a specific width and height. The Object... is the ingredients, in order from left to right, top to bottom.  Uses a custom group.
+	 * Generates a {@link ShapedRecipes} with a specific width and height. The Object... is the ingredients, in order from left to right, top to bottom.
 	 */
 	public ShapedRecipes makeShaped(ItemStack output, int l, int w, NonNullList<Ingredient> input) {
 		if (l * w != input.size()) throw new UnsupportedOperationException("The mod " + modname + " attempted to create an invalid shaped recipe.");
-		return new ShapedRecipes(null, l, w, input, output);
+		return new ShapedRecipes(modid, l, w, input, output);
 	}
 
 	/**
@@ -113,7 +114,9 @@ public abstract class RecipeHelper {
 	 * Adds a shapeless recipe with one output and x inputs, all inputs are the same.
 	 */
 	public void addSimpleShapeless(Object output, Object input, int numInputs) {
-		addShapeless(output, NonNullList.withSize(numInputs, makeStack(input)));
+		Object[] inputs = new Object[numInputs];
+		Arrays.fill(inputs, input);
+		addShapeless(output, inputs);
 	}
 
 	/**

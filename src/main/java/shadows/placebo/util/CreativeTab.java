@@ -11,6 +11,7 @@ public class CreativeTab extends CreativeTabs {
 
 	public CreativeTab(String modid, Supplier<ItemStack> icon) {
 		super(modid);
+		this.icon = icon;
 	}
 
 	@Override
