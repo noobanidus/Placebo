@@ -19,6 +19,9 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 import shadows.placebo.data.IPostInitUpdate;
+import shadows.placebo.event.LoaderEvents.PlaceboInit;
+import shadows.placebo.event.LoaderEvents.PlaceboPostInit;
+import shadows.placebo.event.LoaderEvents.PlaceboPreInit;
 import shadows.placebo.event.MessageRegistryEvent;
 import shadows.placebo.loot.PlaceboLootSystem;
 import shadows.placebo.net.MessageButtonClick;
@@ -51,11 +54,13 @@ public class Placebo {
 		if (config.hasChanged()) config.save();
 		MinecraftForge.EVENT_BUS.register(new PlaceboLootSystem());
 		MinecraftForge.EVENT_BUS.register(this);
+		MinecraftForge.EVENT_BUS.post(new PlaceboPreInit(e));
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent e) {
 		MinecraftForge.EVENT_BUS.post(new MessageRegistryEvent());
+		MinecraftForge.EVENT_BUS.post(new PlaceboInit(e));
 	}
 
 	@EventHandler
@@ -66,6 +71,7 @@ public class Placebo {
 		if (fastRecipes) FastRecipeHandler.enableFastShapeless();
 		CachedOreIngredient.ing = null;
 		CachedIngredient.ing = null;
+		MinecraftForge.EVENT_BUS.post(new PlaceboPostInit(e));
 	}
 
 	@SubscribeEvent

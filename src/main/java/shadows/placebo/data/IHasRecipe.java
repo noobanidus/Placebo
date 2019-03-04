@@ -1,10 +1,9 @@
 package shadows.placebo.data;
 
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraftforge.event.RegistryEvent.Register;
+import shadows.placebo.util.RecipeHelper;
 
 public interface IHasRecipe {
 
-	public void initRecipes(Register<IRecipe> e);
+	public void addRecipes(RecipeHelper helper);
 
 }
