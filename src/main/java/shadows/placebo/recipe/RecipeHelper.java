@@ -94,7 +94,7 @@ public class RecipeHelper {
 			name += "_";
 		}
 		names.add(name);
-		return new ResourceLocation(modid, name);
+		return new ResourceLocation(name);
 	}
 
 	public static ItemStack makeStack(Object thing, int size) {
